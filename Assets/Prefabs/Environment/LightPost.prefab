@@ -538,8 +538,8 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 126
-  m_IsActive: 0
+  m_StaticEditorFlags: 4294967294
+  m_IsActive: 1
 --- !u!4 &6533267366786819141
 Transform:
   m_ObjectHideFlags: 0
