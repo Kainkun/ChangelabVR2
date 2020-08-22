@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 14b70b97decd7fe408b3b86c219ce79b
+guid: 615d6ff2114a31745ac9788de1216018
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
@@ -55,10 +55,10 @@ ModelImporter:
     minBoneWeight: 0.001
     meshOptimizationFlags: -1
     indexFormat: 0
-    secondaryUVAngleDistortion: 16
+    secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15
     secondaryUVHardAngle: 88
-    secondaryUVPackMargin: 60
+    secondaryUVPackMargin: 64
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
