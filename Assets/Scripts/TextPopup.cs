@@ -4,60 +4,116 @@ using UnityEngine;
 using UnityEngine.UI;
 public class TextPopup : MonoBehaviour
 {
-    public bool isInTrigger = false;
-    public bool isLookingAtObject = false;
-    public GameObject importantThingo;
+    public List<bool> isLookingAtObjectList;
+    public List<bool> isInTriggerList;
+    public GameObject[] importantObjectsArray;
     public Material highlightMaterial;
-    public Material originalMaterial;
-    public GameObject textPanel;
-    public Text text;
-    // Start is called before the first frame update
+    public List<Material> originalMaterialList;
+    public GameObject[] textPanelArray;
+    public Text[] ObjDescriptionTextArray;
+
     void Start()
     {
-        originalMaterial = importantThingo.GetComponent<MeshRenderer>().material;
+
+        for (int i = 0; i < importantObjectsArray.Length; i++)
+        {
+            print("poop");
+            isLookingAtObjectList.Add(false);
+            isInTriggerList.Add(false);
+            originalMaterialList.Add(importantObjectsArray[i].GetComponent<MeshRenderer>().material);
+            //originalMaterialsArray[i] = importantThingos[i].GetComponent<MeshRenderer>().material;
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (isInTrigger && isLookingAtObject)
+        if (isInTriggerList[0] && isLookingAtObjectList[0])
         {
-            textPanel.SetActive(true);
-            text.text = "This Cube is an Ancient Handball before they invented rounded corners.";
-            text.fontSize = 219;
-            importantThingo.GetComponent<MeshRenderer>().material = highlightMaterial;
+            //textPanel.SetActive(true);
+            //importantObjectsArray[0].GetComponent<MeshRenderer>().material = highlightMaterial;
+            //ObjDescriptionText.text = "This Cube is an Ancient Handball before they invented rounded corners.";
+            //ObjDescriptionText.fontSize = 150;
+            HighlightWithText(0, "This cube is an ancient handball before corners were invented.", 150);
+            print("buts");
         }
+        else if (isInTriggerList[1] && isLookingAtObjectList[1])
+        {
+            HighlightWithText(1, "This Cube is just a fancy rock that someone made.", 150);
+            print("wow");
+        }
+
         else
         {
-            textPanel.SetActive(false);
-            importantThingo.GetComponent<MeshRenderer>().material = originalMaterial;
+            for (int i = 0; i < importantObjectsArray.Length; i++)
+            {
+                print("back to normal");
+                textPanelArray[i].SetActive(false);
+                importantObjectsArray[i].GetComponent<MeshRenderer>().material = originalMaterialList[i];
+            }
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    //This allows for things to be cleaning swapped in Update instead of having to change a lot of stuff manaually through multiple lines of code.
+    private void HighlightWithText(int ObjNum, string ObjText, int TextSize)
     {
-        //DISABLE OTHER COLLIDERS ON THE TELEPORT PADS, MESSING WITH THE TRIGGER ZONE
-        print("collision happened");
-        if (other.gameObject.tag == "InteractableTrigger")
+        textPanelArray[ObjNum].SetActive(true);
+        importantObjectsArray[ObjNum].GetComponent<MeshRenderer>().material = highlightMaterial;
+        ObjDescriptionTextArray[ObjNum].text = ObjText;
+        ObjDescriptionTextArray[ObjNum].fontSize = TextSize;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //Remember to set the TriggerZones' tags.
+        if (other.gameObject.tag == "TriggerForObj0")
         {
-            isInTrigger = true;
+            isInTriggerList[0] = true;
             print("entered");
         }
-        else
+        else if (other.gameObject.tag == "TriggerForObj1")
         {
-            isInTrigger = false;
+            isInTriggerList[1] = true;
+            print("entered");
         }
+        //if (other.gameObject.tag == "InteractableTrigger")
+        //{
+        //    isInTrigger = true;
+        //    print("entered");
+        //}
     }
 
-    public void ObjectLookedAt()
+    private void OnTriggerExit(Collider other)
     {
+        for (int i = 0; i < isInTriggerList.Count; i++)
+        {
+            isInTriggerList[i] = false;
+            //isInTrigger = false;
+            print("exit");
+        }
 
-        isLookingAtObject = true;
     }
+
+    // Make sure this is applied to the object's "Hover Exited" part of the XR interable script in the Unity Inspector for any new objects. Should wipe all "LookedAtObj"s that are true.
+    // Don't forget that this List's length (or count) is based on the GameObject array
     public void ObjectNotLookedAt()
     {
+        for (int i = 0; i < isLookingAtObjectList.Count; i++)
+        {
+            isLookingAtObjectList[i] = false;
+        }
 
-        isLookingAtObject = false;
     }
 
+    //To add more objects to look at, duplicate a method below and add a number in sequence.
+    //Make sure to add the method in the Unity Inspector, under the object's "Hover Entered" section in its XR interactable script.
+    public void LookedAtObj0()
+    {
+
+        isLookingAtObjectList[0] = true;
+    }
+    public void LookedAtObj1()
+    {
+
+        isLookingAtObjectList[1] = true;
+    }
 }

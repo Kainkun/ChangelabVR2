@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - InteractableTrigger
+  - InteractableObject
+  - TriggerForObj0
+  - TriggerForObj1
   layers:
   - Default
   - TransparentFX
