@@ -8,6 +8,11 @@ TagManager:
   - InteractableObject
   - TriggerForObj0
   - TriggerForObj1
+  - TriggerForObj2
+  - TriggerForObj3
+  - TriggerForObj4
+  - TriggerForObj5
+  - PartOfObj2
   layers:
   - Default
   - TransparentFX

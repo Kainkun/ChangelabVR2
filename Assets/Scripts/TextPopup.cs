@@ -9,12 +9,16 @@ public class TextPopup : MonoBehaviour
     public GameObject[] importantObjectsArray;
     public Material highlightMaterial;
     public List<Material> originalMaterialList;
+    public GameObject[] importantObjPartsArray;
+    public List<Material> originalMaterialsForPartsList;
     public GameObject[] textPanelArray;
     public Text[] ObjDescriptionTextArray;
 
+    //Considering trying to use Tags to GameObject.FindObjectsWithTag("") to get all of similar/the same items to be highlighted when just one is selected without clogging the god damn array
+
     void Start()
     {
-
+        //arrays are added in Unity Editor, script is under PlayerBody in the XR rig, lists are automatic
         for (int i = 0; i < importantObjectsArray.Length; i++)
         {
             print("poop");
@@ -41,15 +45,27 @@ public class TextPopup : MonoBehaviour
             HighlightWithText(1, "This Cube is just a fancy rock that someone made.", 150);
             print("wow");
         }
+        else if (isInTriggerList[2] && isLookingAtObjectList[2])
+        {//first object that is made of parts, works perfectly as of 7/21/2022.
+            HighlightWithText(2, "Nerds use these microscopes.", 150);
+            importantObjectsArray[2].GetComponentInChildren<MeshRenderer>().material = highlightMaterial;
+            //unsure if i need this top one, but it's working and i don't wanna mess with it 
+            print("labs");
+        }
 
         else
-        {
+        {       
             for (int i = 0; i < importantObjectsArray.Length; i++)
             {
                 print("back to normal");
                 textPanelArray[i].SetActive(false);
                 importantObjectsArray[i].GetComponent<MeshRenderer>().material = originalMaterialList[i];
+            }//below is for objects that are made of parts with seperate renderers and don't have a material/mesh renderer for the object itself
+            for (int x = 0; x < importantObjPartsArray.Length; x++)
+            {
+                importantObjPartsArray[x].GetComponent<MeshRenderer>().material = originalMaterialsForPartsList[x];
             }
+            originalMaterialsForPartsList.Clear();
         }
     }
 
@@ -57,24 +73,54 @@ public class TextPopup : MonoBehaviour
     private void HighlightWithText(int ObjNum, string ObjText, int TextSize)
     {
         textPanelArray[ObjNum].SetActive(true);
-        importantObjectsArray[ObjNum].GetComponent<MeshRenderer>().material = highlightMaterial;
+        if (importantObjectsArray[ObjNum].GetComponent<MeshRenderer>() != importantObjectsArray[2].GetComponent<MeshRenderer>())
+        {//checking if the thing has a renderer with the NoMeshRenderer i made, meaning it's composed of parts
+            importantObjectsArray[ObjNum].GetComponent<MeshRenderer>().material = highlightMaterial;
+        }
+        else
+        {//since it's made of parts, fill the parts array with every part that has a specific tag
+            importantObjPartsArray = GameObject.FindGameObjectsWithTag("PartOfObj" + ObjNum);
+            for (int i = 0; i < importantObjPartsArray.Length; i++)
+            {//then go through that array and add their original materials to the parts' material list, and then highlight the part
+                if (originalMaterialsForPartsList.Count < importantObjPartsArray.Length)
+                {
+                    originalMaterialsForPartsList.Add(importantObjPartsArray[i].GetComponent<MeshRenderer>().material);
+                }
+                importantObjPartsArray[i].GetComponent<MeshRenderer>().material = highlightMaterial;
+            }
+        }
+        //change text when calling function
         ObjDescriptionTextArray[ObjNum].text = ObjText;
         ObjDescriptionTextArray[ObjNum].fontSize = TextSize;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        //Remember to set the TriggerZones' tags.
-        if (other.gameObject.tag == "TriggerForObj0")
+        //Remember to set AND MAKE the TriggerZones' SPECIFIC tags.
+        for(int i = 0; i < isInTriggerList.Count; i++)
         {
-            isInTriggerList[0] = true;
-            print("entered");
+            if (other.gameObject.tag == "TriggerForObj" + i)
+            {
+                isInTriggerList[i] = true;
+                print("entered trigger zone " + i);
+            }
         }
-        else if (other.gameObject.tag == "TriggerForObj1")
-        {
-            isInTriggerList[1] = true;
-            print("entered");
-        }
+        //legacy stuff i'm not deleting yet, just in case it can be used/for reference
+        //if (other.gameObject.tag == "TriggerForObj0")
+        //{
+        //    isInTriggerList[0] = true;
+        //    print("entered");
+        //}
+        //else if (other.gameObject.tag == "TriggerForObj1")
+        //{
+        //    isInTriggerList[1] = true;
+        //    print("entered");
+        //}
+        //else if (other.gameObject.tag == "TriggerForObj2")
+        //{
+        //    isInTriggerList[2] = true;
+        //    print("entered");
+        //}
         //if (other.gameObject.tag == "InteractableTrigger")
         //{
         //    isInTrigger = true;
@@ -115,5 +161,10 @@ public class TextPopup : MonoBehaviour
     {
 
         isLookingAtObjectList[1] = true;
+    }
+    public void LookedAtObj2Micro()//added specific flare to this because it's a special one
+    {
+
+        isLookingAtObjectList[2] = true;
     }
 }
