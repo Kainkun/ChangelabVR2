@@ -64,8 +64,9 @@ public class TextPopup : MonoBehaviour
             for (int x = 0; x < importantObjPartsArray.Length; x++)
             {
                 importantObjPartsArray[x].GetComponent<MeshRenderer>().material = originalMaterialsForPartsList[x];
-            }
+            }//clear List and Array for parts, iffy on if array should be cleared, but nothing's broke so far
             originalMaterialsForPartsList.Clear();
+            importantObjPartsArray = new GameObject[] { };//FLAG FOR POTENTIALLY BEING BAD.
         }
     }
 
