@@ -13,6 +13,7 @@ TagManager:
   - TriggerForObj4
   - TriggerForObj5
   - PartOfObj2
+  - PartOfObj3
   layers:
   - Default
   - TransparentFX

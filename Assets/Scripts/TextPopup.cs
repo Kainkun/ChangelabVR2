@@ -52,6 +52,19 @@ public class TextPopup : MonoBehaviour
             //unsure if i need this top one, but it's working and i don't wanna mess with it 
             print("labs");
         }
+        else if (isInTriggerList[3] && isLookingAtObjectList[3])
+        {
+            HighlightWithText(3, "This lettuce is delicious, don't mind the bugs.", 150);
+            importantObjectsArray[3].GetComponentInChildren<MeshRenderer>().material = highlightMaterial;
+            print("labs");
+        }
+
+        else if (isInTriggerList[4] && isLookingAtObjectList[4])
+        {
+            HighlightWithText(4, "Try some Food, it's there AND overpriced!", 150);
+            importantObjectsArray[4].GetComponentInChildren<MeshRenderer>().material = highlightMaterial;
+            print("menu");
+        }
 
         else
         {       
@@ -60,7 +73,8 @@ public class TextPopup : MonoBehaviour
                 print("back to normal");
                 textPanelArray[i].SetActive(false);
                 importantObjectsArray[i].GetComponent<MeshRenderer>().material = originalMaterialList[i];
-            }//below is for objects that are made of parts with seperate renderers and don't have a material/mesh renderer for the object itself
+            }
+            //below is for objects that are made of parts with seperate renderers and don't have a material/mesh renderer for the object itself
             for (int x = 0; x < importantObjPartsArray.Length; x++)
             {
                 importantObjPartsArray[x].GetComponent<MeshRenderer>().material = originalMaterialsForPartsList[x];
@@ -73,22 +87,26 @@ public class TextPopup : MonoBehaviour
     //This allows for things to be cleaning swapped in Update instead of having to change a lot of stuff manaually through multiple lines of code.
     private void HighlightWithText(int ObjNum, string ObjText, int TextSize)
     {
+        print(ObjNum + " is curr ObjNum");
         textPanelArray[ObjNum].SetActive(true);
-        if (importantObjectsArray[ObjNum].GetComponent<MeshRenderer>() != importantObjectsArray[2].GetComponent<MeshRenderer>())
+        if (ObjNum.Equals(2) || ObjNum.Equals(3))
         {//checking if the thing has a renderer with the NoMeshRenderer i made, meaning it's composed of parts
-            importantObjectsArray[ObjNum].GetComponent<MeshRenderer>().material = highlightMaterial;
-        }
-        else
-        {//since it's made of parts, fill the parts array with every part that has a specific tag
+         //at least, that's what I TRIED to do, and it worked until i tried it with ONE other thing, which, yeah sure that's cool, whatever. Now it's hard coded, so whatever
             importantObjPartsArray = GameObject.FindGameObjectsWithTag("PartOfObj" + ObjNum);
+
             for (int i = 0; i < importantObjPartsArray.Length; i++)
             {//then go through that array and add their original materials to the parts' material list, and then highlight the part
                 if (originalMaterialsForPartsList.Count < importantObjPartsArray.Length)
                 {
+                    print(importantObjPartsArray[i].ToString());
                     originalMaterialsForPartsList.Add(importantObjPartsArray[i].GetComponent<MeshRenderer>().material);
                 }
                 importantObjPartsArray[i].GetComponent<MeshRenderer>().material = highlightMaterial;
             }
+        }
+        else
+        {//since it's made of parts, fill the parts array with every part that has a specific tag
+            importantObjectsArray[ObjNum].GetComponent<MeshRenderer>().material = highlightMaterial;
         }
         //change text when calling function
         ObjDescriptionTextArray[ObjNum].text = ObjText;
@@ -168,4 +186,19 @@ public class TextPopup : MonoBehaviour
 
         isLookingAtObjectList[2] = true;
     }
+    public void LookedAtObj3()
+    {
+
+        isLookingAtObjectList[3] = true;
+    }
+    public void LookedAtObj4()
+    {
+
+        isLookingAtObjectList[4] = true;
+    }
+    //public void LookedAtObj5()
+    //{
+
+    //    isLookingAtObjectList[5] = true;
+    //}
 }
