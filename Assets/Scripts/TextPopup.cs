@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Animations;
 public class TextPopup : MonoBehaviour
 {
     public List<bool> isLookingAtObjectList;
@@ -13,7 +14,8 @@ public class TextPopup : MonoBehaviour
     public List<Material> originalMaterialsForPartsList;
     public GameObject[] textPanelArray;
     public Text[] ObjDescriptionTextArray;
-
+    public Animator animator;
+    bool isCrouching = true;
     //Considering trying to use Tags to GameObject.FindObjectsWithTag("") to get all of similar/the same items to be highlighted when just one is selected without clogging the god damn array
 
     void Start()
@@ -31,6 +33,7 @@ public class TextPopup : MonoBehaviour
 
     void Update()
     {
+        animator.SetBool("IsCrouching", isCrouching);
         if (isInTriggerList[0] && isLookingAtObjectList[0])
         {
             //textPanel.SetActive(true);
@@ -196,9 +199,15 @@ public class TextPopup : MonoBehaviour
 
         isLookingAtObjectList[4] = true;
     }
-    //public void LookedAtObj5()
-    //{
-
-    //    isLookingAtObjectList[5] = true;
-    //}
+    public void HiDawson()
+    {
+        if (isCrouching)
+        {
+            isCrouching = false;
+        }
+        else
+        {
+            isCrouching = true; 
+        }
+    }
 }
