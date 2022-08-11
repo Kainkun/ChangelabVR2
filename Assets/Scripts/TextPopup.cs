@@ -16,6 +16,7 @@ public class TextPopup : MonoBehaviour
     public Text[] ObjDescriptionTextArray;
     public Animator animator;
     bool isCrouching = true;
+    bool isTurningRight = false;
     //Considering trying to use Tags to GameObject.FindObjectsWithTag("") to get all of similar/the same items to be highlighted when just one is selected without clogging the god damn array
 
     void Start()
@@ -34,6 +35,7 @@ public class TextPopup : MonoBehaviour
     void Update()
     {
         animator.SetBool("IsCrouching", isCrouching);
+        animator.SetBool("IsTurningRight", isTurningRight);
         if (isInTriggerList[0] && isLookingAtObjectList[0])
         {
             //textPanel.SetActive(true);
@@ -208,6 +210,17 @@ public class TextPopup : MonoBehaviour
         else
         {
             isCrouching = true; 
+        }
+    }
+    public void TurnAround()
+    {
+        if (isTurningRight)
+        {
+            isTurningRight = false;
+        }
+        else
+        {
+            isTurningRight = true; 
         }
     }
 }
