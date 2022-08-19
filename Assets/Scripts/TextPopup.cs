@@ -18,8 +18,13 @@ public class TextPopup : MonoBehaviour
     public Animator DaughterAnimator;
     public Animator KagawaAnimator;
     public Animator AdvisorAnimator;
-    bool isCrouching = true;
-    bool isTurningRight = false;
+    bool isJeffCrouching = true;
+    bool isJeffTurningRight = false;
+    bool isDaughterWalking = true;
+    bool isKagawaWalking = true;
+    bool isAdvisorWalking = true;
+    bool isAdvisorGesteringLeft = true;
+    bool isAdvisorGesteringRight = true;
     //Considering trying to use Tags to GameObject.FindObjectsWithTag("") to get all of similar/the same items to be highlighted when just one is selected without clogging the god damn array
 
     void Start()
@@ -37,8 +42,8 @@ public class TextPopup : MonoBehaviour
 
     void Update()
     {
-        JeffAnimator.SetBool("IsCrouching", isCrouching);
-        JeffAnimator.SetBool("IsTurningRight", isTurningRight);
+        JeffAnimator.SetBool("IsCrouching", isJeffCrouching);
+        JeffAnimator.SetBool("IsTurningRight", isJeffTurningRight);
         if (isInTriggerList[0] && isLookingAtObjectList[0])
         {
             //textPanel.SetActive(true);
@@ -206,24 +211,24 @@ public class TextPopup : MonoBehaviour
     }
     public void HiDawson()
     {
-        if (isCrouching)
+        if (isJeffCrouching)
         {
-            isCrouching = false;
+            isJeffCrouching = false;
         }
         else
         {
-            isCrouching = true;
+            isJeffCrouching = true;
         }
     }
     public void TurnAround()
     {
-        if (isTurningRight)
+        if (isJeffTurningRight)
         {
-            isTurningRight = false;
+            isJeffTurningRight = false;
         }
         else
         {
-            isTurningRight = true;
+            isJeffTurningRight = true;
         }
     }
 }
