@@ -14,7 +14,10 @@ public class TextPopup : MonoBehaviour
     public List<Material> originalMaterialsForPartsList;
     public GameObject[] textPanelArray;
     public Text[] ObjDescriptionTextArray;
-    public Animator animator;
+    public Animator JeffAnimator;
+    public Animator DaughterAnimator;
+    public Animator KagawaAnimator;
+    public Animator AdvisorAnimator;
     bool isCrouching = true;
     bool isTurningRight = false;
     //Considering trying to use Tags to GameObject.FindObjectsWithTag("") to get all of similar/the same items to be highlighted when just one is selected without clogging the god damn array
@@ -34,8 +37,8 @@ public class TextPopup : MonoBehaviour
 
     void Update()
     {
-        animator.SetBool("IsCrouching", isCrouching);
-        animator.SetBool("IsTurningRight", isTurningRight);
+        JeffAnimator.SetBool("IsCrouching", isCrouching);
+        JeffAnimator.SetBool("IsTurningRight", isTurningRight);
         if (isInTriggerList[0] && isLookingAtObjectList[0])
         {
             //textPanel.SetActive(true);
@@ -72,7 +75,7 @@ public class TextPopup : MonoBehaviour
         }
 
         else
-        {       
+        {
             for (int i = 0; i < importantObjectsArray.Length; i++)
             {
                 print("back to normal");
@@ -121,7 +124,7 @@ public class TextPopup : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Remember to set AND MAKE the TriggerZones' SPECIFIC tags.
-        for(int i = 0; i < isInTriggerList.Count; i++)
+        for (int i = 0; i < isInTriggerList.Count; i++)
         {
             if (other.gameObject.tag == "TriggerForObj" + i)
             {
@@ -209,7 +212,7 @@ public class TextPopup : MonoBehaviour
         }
         else
         {
-            isCrouching = true; 
+            isCrouching = true;
         }
     }
     public void TurnAround()
@@ -220,7 +223,7 @@ public class TextPopup : MonoBehaviour
         }
         else
         {
-            isTurningRight = true; 
+            isTurningRight = true;
         }
     }
 }
