@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - InteractableTrigger
+  - InteractableObject
+  - TriggerForObj0
+  - TriggerForObj1
+  - TriggerForObj2
+  - TriggerForObj3
+  - TriggerForObj4
+  - TriggerForObj5
+  - PartOfObj2
+  - PartOfObj3
   layers:
   - Default
   - TransparentFX
