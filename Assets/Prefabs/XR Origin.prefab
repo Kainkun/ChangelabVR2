@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 290236609111594850}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: -0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5136444304403925424}
@@ -115,6 +115,8 @@ MonoBehaviour:
   importantObjectsArray: []
   highlightMaterial: {fileID: 2100000, guid: 64790900475a0d04ba1c6cb8a74473da, type: 2}
   originalMaterialList: []
+  importantObjPartsArray: []
+  originalMaterialsForPartsList: []
   textPanelArray: []
   ObjDescriptionTextArray: []
 --- !u!54 &976859383878234468

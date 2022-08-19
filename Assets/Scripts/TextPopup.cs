@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Animations;
 public class TextPopup : MonoBehaviour
 {
     public List<bool> isLookingAtObjectList;
@@ -13,7 +14,17 @@ public class TextPopup : MonoBehaviour
     public List<Material> originalMaterialsForPartsList;
     public GameObject[] textPanelArray;
     public Text[] ObjDescriptionTextArray;
-
+    public Animator JeffAnimator;
+    public Animator DaughterAnimator;
+    public Animator KagawaAnimator;
+    public Animator AdvisorAnimator;
+    bool isJeffCrouching = true;
+    bool isJeffTurningRight = false;
+    bool isDaughterWalking = true;
+    bool isKagawaWalking = true;
+    bool isAdvisorWalking = true;
+    bool isAdvisorGesteringLeft = true;
+    bool isAdvisorGesteringRight = true;
     //Considering trying to use Tags to GameObject.FindObjectsWithTag("") to get all of similar/the same items to be highlighted when just one is selected without clogging the god damn array
 
     void Start()
@@ -31,6 +42,8 @@ public class TextPopup : MonoBehaviour
 
     void Update()
     {
+        JeffAnimator.SetBool("IsCrouching", isJeffCrouching);
+        JeffAnimator.SetBool("IsTurningRight", isJeffTurningRight);
         if (isInTriggerList[0] && isLookingAtObjectList[0])
         {
             //textPanel.SetActive(true);
@@ -52,15 +65,29 @@ public class TextPopup : MonoBehaviour
             //unsure if i need this top one, but it's working and i don't wanna mess with it 
             print("labs");
         }
+        else if (isInTriggerList[3] && isLookingAtObjectList[3])
+        {
+            HighlightWithText(3, "This lettuce is delicious, don't mind the bugs.", 150);
+            importantObjectsArray[3].GetComponentInChildren<MeshRenderer>().material = highlightMaterial;
+            print("labs");
+        }
+
+        else if (isInTriggerList[4] && isLookingAtObjectList[4])
+        {
+            HighlightWithText(4, "Try some Food, it's there AND overpriced!", 150);
+            importantObjectsArray[4].GetComponentInChildren<MeshRenderer>().material = highlightMaterial;
+            print("menu");
+        }
 
         else
-        {       
+        {
             for (int i = 0; i < importantObjectsArray.Length; i++)
             {
                 print("back to normal");
                 textPanelArray[i].SetActive(false);
                 importantObjectsArray[i].GetComponent<MeshRenderer>().material = originalMaterialList[i];
-            }//below is for objects that are made of parts with seperate renderers and don't have a material/mesh renderer for the object itself
+            }
+            //below is for objects that are made of parts with seperate renderers and don't have a material/mesh renderer for the object itself
             for (int x = 0; x < importantObjPartsArray.Length; x++)
             {
                 importantObjPartsArray[x].GetComponent<MeshRenderer>().material = originalMaterialsForPartsList[x];
@@ -73,22 +100,26 @@ public class TextPopup : MonoBehaviour
     //This allows for things to be cleaning swapped in Update instead of having to change a lot of stuff manaually through multiple lines of code.
     private void HighlightWithText(int ObjNum, string ObjText, int TextSize)
     {
+        print(ObjNum + " is curr ObjNum");
         textPanelArray[ObjNum].SetActive(true);
-        if (importantObjectsArray[ObjNum].GetComponent<MeshRenderer>() != importantObjectsArray[2].GetComponent<MeshRenderer>())
+        if (ObjNum.Equals(2) || ObjNum.Equals(3))
         {//checking if the thing has a renderer with the NoMeshRenderer i made, meaning it's composed of parts
-            importantObjectsArray[ObjNum].GetComponent<MeshRenderer>().material = highlightMaterial;
-        }
-        else
-        {//since it's made of parts, fill the parts array with every part that has a specific tag
+         //at least, that's what I TRIED to do, and it worked until i tried it with ONE other thing, which, yeah sure that's cool, whatever. Now it's hard coded, so whatever
             importantObjPartsArray = GameObject.FindGameObjectsWithTag("PartOfObj" + ObjNum);
+
             for (int i = 0; i < importantObjPartsArray.Length; i++)
             {//then go through that array and add their original materials to the parts' material list, and then highlight the part
                 if (originalMaterialsForPartsList.Count < importantObjPartsArray.Length)
                 {
+                    print(importantObjPartsArray[i].ToString());
                     originalMaterialsForPartsList.Add(importantObjPartsArray[i].GetComponent<MeshRenderer>().material);
                 }
                 importantObjPartsArray[i].GetComponent<MeshRenderer>().material = highlightMaterial;
             }
+        }
+        else
+        {//since it's made of parts, fill the parts array with every part that has a specific tag
+            importantObjectsArray[ObjNum].GetComponent<MeshRenderer>().material = highlightMaterial;
         }
         //change text when calling function
         ObjDescriptionTextArray[ObjNum].text = ObjText;
@@ -98,7 +129,7 @@ public class TextPopup : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Remember to set AND MAKE the TriggerZones' SPECIFIC tags.
-        for(int i = 0; i < isInTriggerList.Count; i++)
+        for (int i = 0; i < isInTriggerList.Count; i++)
         {
             if (other.gameObject.tag == "TriggerForObj" + i)
             {
@@ -167,5 +198,37 @@ public class TextPopup : MonoBehaviour
     {
 
         isLookingAtObjectList[2] = true;
+    }
+    public void LookedAtObj3()
+    {
+
+        isLookingAtObjectList[3] = true;
+    }
+    public void LookedAtObj4()
+    {
+
+        isLookingAtObjectList[4] = true;
+    }
+    public void HiDawson()
+    {
+        if (isJeffCrouching)
+        {
+            isJeffCrouching = false;
+        }
+        else
+        {
+            isJeffCrouching = true;
+        }
+    }
+    public void TurnAround()
+    {
+        if (isJeffTurningRight)
+        {
+            isJeffTurningRight = false;
+        }
+        else
+        {
+            isJeffTurningRight = true;
+        }
     }
 }
