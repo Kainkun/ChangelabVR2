@@ -19,7 +19,6 @@ public class TextPopup : MonoBehaviour
     public Animator KagawaAnimator;
     public Animator AdvisorAnimator;
     bool isJeffCrouching = true;
-    bool isJeffTurningRight = false;
     bool isDaughterWalking = true;
     bool isKagawaWalking = true;
     bool isAdvisorWalking = true;
@@ -43,7 +42,12 @@ public class TextPopup : MonoBehaviour
     void Update()
     {
         JeffAnimator.SetBool("IsCrouching", isJeffCrouching);
-        JeffAnimator.SetBool("IsTurningRight", isJeffTurningRight);
+        //JeffAnimator.SetBool("IsTurningRight", isJeffTurningRight); i'm not dealing with turning anymore
+        DaughterAnimator.SetBool("IsWalking", isDaughterWalking);
+        KagawaAnimator.SetBool("IsWalking", isKagawaWalking);
+        AdvisorAnimator.SetBool("IsWalking", isAdvisorWalking);
+        AdvisorAnimator.SetBool("IsPointingLeft", isAdvisorGesteringLeft);
+        AdvisorAnimator.SetBool("IsPointingRight", isAdvisorGesteringRight);
         if (isInTriggerList[0] && isLookingAtObjectList[0])
         {
             //textPanel.SetActive(true);
@@ -220,15 +224,15 @@ public class TextPopup : MonoBehaviour
             isJeffCrouching = true;
         }
     }
-    public void TurnAround()
-    {
-        if (isJeffTurningRight)
-        {
-            isJeffTurningRight = false;
-        }
-        else
-        {
-            isJeffTurningRight = true;
-        }
-    }
+    //public void TurnAround()
+    //{
+    //    if (isJeffTurningRight)
+    //    {
+    //        isJeffTurningRight = false;
+    //    }
+    //    else
+    //    {
+    //        isJeffTurningRight = true;
+    //    }
+    //}
 }
