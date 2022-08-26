@@ -41,6 +41,7 @@ public class TextPopup : MonoBehaviour
     void Update()
     {
         //Below is set up for changing animation states for each NPC, if they need more animations, add another statement like this after adding the bool to trigger it in Unity
+        // however, should you want to, you can make a new script and just control the animations from there, there's nothing speciic about this script animation wise that should be needed
         JeffAnimator.SetBool("IsCrouching", isJeffCrouching);
         //JeffAnimator.SetBool("IsTurningRight", isJeffTurningRight); i'm not dealing with turning anymore
         DaughterAnimator.SetBool("IsWalking", isDaughterWalking);
